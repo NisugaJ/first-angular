@@ -29,4 +29,10 @@ export class TaskService {
     console.log("reminderUpdate", reminderUpdate)
     return reminderUpdate
   }
+
+  addTask(task: Task): Observable<Task>{
+    const newTaskResult = this.http.post<Task>(this.apiUrl, task);
+    console.log("newTaskResult", newTaskResult)
+    return newTaskResult
+  }
 }

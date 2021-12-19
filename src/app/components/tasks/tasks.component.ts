@@ -28,4 +28,9 @@ export class TasksComponent implements OnInit {
     console.log("Updating Reminder");
     this.taskService.updateReminder(task).subscribe((updateTask) => this.tasks.find(t=>t.id === updateTask.id).reminder = updateTask.reminder);
   }
+
+  addTask(task: Task){
+    this.taskService.addTask(task).subscribe((newTask) => this.tasks.push(newTask));
+    console.log("New Task added");
+  }
 }
