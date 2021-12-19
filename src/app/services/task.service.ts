@@ -1,18 +1,32 @@
 import { Injectable } from '@angular/core';
 import { Task } from 'src/app/Task';
-import { TASKS } from 'src/app/mock-tasks';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
 
-  constructor() { }
+  // sample only
+  private apiUrl = "http://localhost:5000/tasks"
+
+  constructor(private http: HttpClient) { }
 
   // backend request to fetch tasks
   getTasks(): Observable<Task[]> {
-    const tasks = of(TASKS)
-    return tasks
+    return this.http.get<Task[]>(this.apiUrl)
+  }
+
+  deleteTask(task: Task): Observable<Task> {
+    const deleteResult = this.http.delete<Task>(this.apiUrl + "/" + task.id)
+    console.log("deleteTask", deleteResult)
+    return deleteResult
+  }
+
+  updateReminder(task: Task): Observable<Task> {
+    const reminderUpdate = this.http.patch<Task>(this.apiUrl + "/" + task.id, {reminder: !task.reminder});
+    console.log("reminderUpdate", reminderUpdate)
+    return reminderUpdate
   }
 }
